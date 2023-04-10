@@ -274,6 +274,7 @@ if __name__ == "__main__":
                         num = len(st.session_state.get("dummies")) + 1
                         with st.spinner("Connecting..."):
                             st.session_state.get("dummies").append(dummy)
+                            dummy.settimeout(5)
                             dummy.connect((addr_val, port_val))
                             dummy.sendall(bytes(f"register:dummy{num}\n", "utf-8"))
                             result = dummy.recv(1163).decode("utf-8")
