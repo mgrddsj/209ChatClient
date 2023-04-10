@@ -37,3 +37,10 @@ Since the socket library in Python is kinda high-level, I can't seem to find a w
 # Other Notes
 
 The code is pretty much a mess. I didn't put much thought into the design of the client. I just built it quickly mainly for testing purposes. But streamlit is pretty straight-forward, it shouldn't be too hard to understand what the code is doing here.
+
+# Video Demo
+
+
+
+https://user-images.githubusercontent.com/36990144/231008716-a7443693-c41f-490b-8259-bf7cb42b73b6.mp4
+
