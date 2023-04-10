@@ -32,7 +32,7 @@ The client has some basic functionalities such as sending and receiving messages
 
 # Limitations
 
-Since the socket library in Python is kinda high-level, I can't seem to find a way to block the readfd. So this might not be the best tool to properly test all the functionality required in Q3 of the assignment. However, the manual send & receive feature might still be somewhat useful for testing the read/write buffer.
+Since the socket library in Python is kinda high-level, I can't seem to find a way to block the readfd. So this might not be the best tool to properly test all the functionality required in Q3 of the assignment (i.e. blocking writes). However, the manual send & receive feature might still be somewhat useful for testing the read/write buffer.
 
 # Other Notes
 

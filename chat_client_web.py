@@ -199,7 +199,7 @@ if __name__ == "__main__":
             user_dropdown_placeholder.selectbox("To User", st.session_state.get("users"), key="user_selected", on_change=select_user)
         else:
             message_placeholder = st.empty()
-        message = message_placeholder.text_area("Enter your message here", key="message")
+        message = message_placeholder.text_area("Enter your message here", placeholder="You can enter multiple lines of commands and send them all at once ;)", key="message")
 
         clear_button_col, send_partial_button_col, send_button_col = st.columns(3)
         with clear_button_col:
