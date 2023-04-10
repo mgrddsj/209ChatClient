@@ -186,6 +186,7 @@ if __name__ == "__main__":
         if st.session_state.get("partial") != "":
             partial = st.session_state.get("partial")
             st.code(f"Current partial input: {partial}", None)
+            st.caption("Partial input shown might be inaccurate if your previous message contains newlines. Reference only.")
 
         if st.session_state.get("message").startswith(f"message:{name}:"):
             user_dropdown_placeholder, message_placeholder = st.columns([1,8])
