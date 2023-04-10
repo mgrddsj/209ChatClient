@@ -157,7 +157,7 @@ if __name__ == "__main__":
             def get_message_action(): st.session_state["action"] = f"getMessage"; quick_send()
             list_button = st.button("📥Get Messages", on_click=get_message_action)
             def quit_action(): st.session_state["action"] = f"quit"; quick_send(); disconnect()
-            quit_button = st.button("🛑Quit", on_click=quit_action)
+            quit_button = st.button("🛑Quit & Close", on_click=quit_action)
             with st.expander("Online user list", True):
                 for i in st.session_state.get("users"):
                     if i.strip() != "":
