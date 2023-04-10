@@ -160,6 +160,9 @@ if __name__ == "__main__":
             with st.expander("Client Settings"):
                 st.subheader("Auto update")
                 auto_get_users = st.checkbox("Automatically get users when sending message", True, key="auto_update")
+                st.subheader("Clear history")
+                def clear_logs(): st.session_state["log"] = []
+                st.button("Clear logs", on_click=clear_logs, use_container_width=True)
                 st.subheader("Flood test wait time")
                 st.number_input("Flood test spawn wait time", value=0.05, key="flood_wait_time")
             with st.expander("Manual Send & Receive Options"):
