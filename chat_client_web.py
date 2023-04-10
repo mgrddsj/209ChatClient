@@ -43,7 +43,6 @@ def quick_send():
         st.session_state.get("socket").sendall(bytes(f"{action}\n", "utf-8"))
         st.session_state.get("log").append(f"> {action}\n")
         result = st.session_state.get("socket").recv(1163).decode("utf-8")
-        st.session_state.get("history").append(result)
         st.session_state.get("log").append(result)
         if result.startswith("users:"):
             st.session_state["users"] = result[6:].split(" ")
@@ -59,7 +58,6 @@ def send():
         st.session_state.get("log").append(f"> {message}\n")
         st.session_state["message"] = ""
         result = st.session_state.get("socket").recv(1163).decode("utf-8")
-        st.session_state.get("history").append(result)
         st.session_state.get("log").append(result)
     except Exception as e:
         st.error("Timed out waiting for response", icon='⌛')
@@ -74,7 +72,6 @@ def send_partial():
         st.session_state.get("socket").settimeout(3)
         with st.spinner("Waiting for response..."):
             result = st.session_state.get("socket").recv(1163).decode("utf-8")
-        st.session_state.get("history").append(result)
         st.session_state.get("log").append(result)
     except Exception as e:
         st.info("Timed out waiting for response (which should be a good sign unless connection is closed)", icon='ℹ')
@@ -96,7 +93,6 @@ def manual_receive():
         manual_receive_bytes = st.session_state.get("manual_receive_bytes")
         st.session_state.get("socket").settimeout(st.session_state.get("manual_receive_timeout"))
         result = st.session_state.get("socket").recv(manual_receive_bytes).decode("utf-8")
-        st.session_state.get("history").append(result)
         st.session_state.get("log").append(result)
     except Exception as e:
         st.error("Receive failed", icon='❗')
@@ -111,8 +107,6 @@ if __name__ == "__main__":
         st.session_state["socket"] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         st.session_state.get("socket").settimeout(5)
 
-    # Set up history
-    if "history" not in st.session_state: st.session_state["history"] = []
     # Set up log
     if "log" not in st.session_state: st.session_state["log"] = []
     # Set up connection status
@@ -166,14 +160,6 @@ if __name__ == "__main__":
             with st.expander("Client Settings"):
                 st.subheader("Auto update")
                 auto_get_users = st.checkbox("Automatically get users when sending message", True, key="auto_update")
-                st.subheader("Recent Responses")
-                response_count = st.number_input("Responses to keep in \"Recent Responses\"", value=10)
-                st.write("Note: full message logs can be viewed in the \"Raw Logs\" tab")
-                st.subheader("Clear history")
-                def clear_logs(): 
-                    st.session_state["history"] = []
-                    st.session_state["log"] = []
-                st.button("Clear responses & logs", on_click=clear_logs, use_container_width=True)
                 st.subheader("Flood test wait time")
                 st.number_input("Flood test spawn wait time", value=0.05, key="flood_wait_time")
             with st.expander("Manual Send & Receive Options"):
@@ -189,25 +175,13 @@ if __name__ == "__main__":
         st.write("If you encounter any error, simply refresh the page.🔁")
     else:
         main_content = st.empty()
+        
+        logs_text = ""
+        
+        for item in st.session_state.get("log"):
+            logs_text += item
 
-        history_tab, log_tab = st.tabs(["Recent Responses", "Raw Logs"])
-
-        with history_tab:
-            history_container = st.container()
-
-            while (len(st.session_state.get("history")) > response_count):
-                st.session_state.get("history").pop(0)
-
-            for item in st.session_state.get("history"):
-                history_container.text(item)
-            
-        with log_tab:
-            logs_text = ""
-            
-            for item in st.session_state.get("log"):
-                logs_text += item
-
-            logs_container = st.code(logs_text, None)
+        logs_container = st.code(logs_text, None)
 
         if st.session_state.get("partial") != "":
             partial = st.session_state.get("partial")
@@ -235,7 +209,7 @@ if __name__ == "__main__":
         with send_button_col:
             send_button = st.button("**Send** (with \\n)", on_click=send, use_container_width=True)
 
-        with st.expander("Manual Send & Receive (Q3 Tools) (Raw Logs view recommended)", expanded=True):
+        with st.expander("Manual Send & Receive (Q3 Tools)", expanded=True):
             manual_recv_button_col, send_wo_recv_button_col = st.columns(2)
             with manual_recv_button_col:
                 manual_receive_bytes = st.session_state.get("manual_receive_bytes")
