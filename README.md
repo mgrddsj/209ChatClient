@@ -26,14 +26,14 @@ or, if you want to specify a port:
 streamlit run chat_client_web.py --server.port 8080
 ```
 
-# Understanding the code
+# Functionality
 
-The code is pretty much a mess. I didn't put much thought into the design of the client. I just built it quickly mainly for testing purposes.
+The client has some basic functionalities such as sending and receiving messages. It also provides a easy way to send messages to existing users (from `list`), as well as functions that allows sending partial messages. It also has some tools for debugging Q2 and Q3 such as flood test and manual send/receive.
 
 # Limitations
 
 Since the socket library in Python is kinda high-level, I can't seem to find a way to block the readfd. So this might not be the best tool to properly test all the functionality required in Q3 of the assignment. However, the manual send & receive feature might still be somewhat useful for testing the read/write buffer.
 
-# Functionality
+# Other Notes
 
-The client has some basic functionalities such as sending and receiving messages. It also provides a easy way to send messages to existing users (from `list`), as well as functions that allows sending partial messages. It also has some tools for debugging Q2 and Q3 such as flood test and manual send/receive.
+The code is pretty much a mess. I didn't put much thought into the design of the client. I just built it quickly mainly for testing purposes. But streamlit is pretty straight-forward, it shouldn't be too hard to understand what the code is doing here.
